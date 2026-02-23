@@ -1,0 +1,88 @@
+<hr />
+<dl class="_data-view">
+  <dt>Name</dt>
+  <dd>{{ data().name }}</dd>
+
+  <dt>Diameter</dt>
+  <dd>{{ data().diameter }}</dd>
+
+  <dt>Rotation Period</dt>
+  <dd>{{ data().rotation_period }}</dd>
+
+  <dt>Orbital Period</dt>
+  <dd>{{ data().orbital_period }}</dd>
+
+  <dt>Gravity</dt>
+  <dd>{{ data().gravity }}</dd>
+
+  <dt>Population</dt>
+  <dd>{{ data().population }}</dd>
+
+  <dt>Climate</dt>
+  <dd>{{ data().climate }}</dd>
+
+  <dt>Terrain</dt>
+  <dd>{{ data().terrain }}</dd>
+
+  <dt>Surface Water</dt>
+  <dd>{{ data().surface_water }}</dd>
+
+  <dt>Residents</dt>
+  <dd>
+    @if (residentsResource.hasValue()) {
+      @if (residentsResource.value().length > 0) {
+        <ul>
+          @for (person of residentsResource.value(); track person.url) {
+            <li>
+              <a
+                [routerLink]="['people', person.url | extractId]"
+                [relativeTo]="moduleRoute()"
+                class="app-cmp-link"
+                >{{ person.name }}</a
+              >
+            </li>
+          }
+        </ul>
+      } @else {
+        <span>None</span>
+      }
+    } @else if (residentsResource.error(); as error) {
+      <span class="_status-warning">{{ error.message }}</span>
+    } @else if (residentsResource.isLoading()) {
+      <span class="_status-loading">Loading</span>
+    }
+  </dd>
+
+  <dt>Films</dt>
+  <dd>
+    @if (filmsResource.hasValue()) {
+      @if (filmsResource.value().length > 0) {
+        <ul>
+          @for (film of filmsResource.value(); track film.url) {
+            <li>
+              <a
+                [routerLink]="['films', film.url | extractId]"
+                [relativeTo]="moduleRoute()"
+                class="app-cmp-link"
+                >{{ film.title }}</a
+              >
+            </li>
+          }
+        </ul>
+      } @else {
+        <span>None</span>
+      }
+    } @else if (filmsResource.error(); as error) {
+      <span class="_status-warning">{{ error.message }}</span>
+    } @else if (filmsResource.isLoading()) {
+      <span class="_status-loading">Loading</span>
+    }
+  </dd>
+
+  <dt>Created</dt>
+  <dd>{{ data().created | date }}</dd>
+
+  <dt>Edited</dt>
+  <dd>{{ data().edited | date }}</dd>
+</dl>
+<hr />

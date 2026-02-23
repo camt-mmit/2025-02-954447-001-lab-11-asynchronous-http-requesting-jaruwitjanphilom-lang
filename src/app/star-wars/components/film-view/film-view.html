@@ -1,0 +1,77 @@
+<hr />
+<dl class="_data-view">
+  <dt>Title</dt>
+  <dd>{{ data().title }}</dd>
+
+  <dt>Episode ID</dt>
+  <dd>{{ data().episode_id }}</dd>
+
+  <dt>Director</dt>
+  <dd>{{ data().director }}</dd>
+
+  <dt>Producer</dt>
+  <dd>{{ data().producer }}</dd>
+
+  <dt>Release Date</dt>
+  <dd>{{ data().release_date | date }}</dd>
+
+  <dt>Opening Crawl</dt>
+  <dd style="white-space: pre-wrap; font-family: monospace; line-height: 1.5; background-color: #222; color: #ffe81f; padding: 1rem; border-radius: 4px;">
+    {{ data().opening_crawl }}
+  </dd>
+
+  <dt>Characters</dt>
+  <dd>
+    @if (charactersResource.hasValue()) {
+      @if (charactersResource.value().length > 0) {
+        <ul>
+          @for (person of charactersResource.value(); track person.url) {
+            <li>
+              <a
+                [routerLink]="['people', person.url | extractId]"
+                [relativeTo]="moduleRoute()"
+                class="app-cmp-link"
+                >{{ person.name }}</a
+              >
+            </li>
+          }
+        </ul>
+      } @else {
+        <span>None</span>
+      }
+    } @else if (charactersResource.isLoading()) {
+      <span class="_status-loading">Loading</span>
+    }
+  </dd>
+
+  <dt>Planets</dt>
+  <dd>
+    @if (planetsResource.hasValue()) {
+      @if (planetsResource.value().length > 0) {
+        <ul>
+          @for (planet of planetsResource.value(); track planet.url) {
+            <li>
+              <a
+                [routerLink]="['planets', planet.url | extractId]"
+                [relativeTo]="moduleRoute()"
+                class="app-cmp-link"
+                >{{ planet.name }}</a
+              >
+            </li>
+          }
+        </ul>
+      } @else {
+        <span>None</span>
+      }
+    } @else if (planetsResource.isLoading()) {
+      <span class="_status-loading">Loading</span>
+    }
+  </dd>
+
+  <dt>Created</dt>
+  <dd>{{ data().created | date }}</dd>
+
+  <dt>Edited</dt>
+  <dd>{{ data().edited | date }}</dd>
+</dl>
+<hr />
